@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Itael Dikson — Analista de Dados & Frontend</title>
+
+  <style>
+    :root {
+      --bg-dark: #020817;
+      --bg-light: #f5f5f5;
+      --text-dark: #D9D9D9;
+      --text-light: #1a1a1a;
+      --accent: #0A4FFF;
+      --card-dark: #0B1A33;
+      --card-light: #ffffff;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-dark);
+      transition: background-color 0.4s ease, color 0.4s ease;
+      overflow-x: hidden;
+    }
+
+    body.light {
+      background-color: var(--bg-light);
+      color: var(--text-light);
+    }
+
+    /* NAVBAR */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: rgba(2, 8, 23, 0.9);
+      backdrop-filter: blur(12px);
+      padding: 10px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      transition: background-color 0.4s ease, border-color 0.4s ease;
+    }
+
+    body.light nav {
+      background-color: rgba(245,245,245,0.9);
+      border-bottom-color: rgba(0,0,0,0.08);
+    }
+
+    nav .logo {
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    nav .links a {
+      color: inherit;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      position: relative;
+    }
+
+    nav .links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 0;
+      height: 2px;
+      background-color: var(--accent);
+      transition: width 0.3s ease;
+    }
+
+    nav .links a:hover::after {
+      width: 100%;
+    }
+
+    .theme-toggle {
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.3);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: 0.3s;
+    }
+
+    body.light .theme-toggle {
+      border-color: rgba(0,0,0,0.3);
+    }
+
+    .theme-toggle:hover {
+      transform: translateY(-1px);
+    }
+
+    /* LAYOUT BASE */
+    main {
+      max-width: 1100px;
+      margin: 120px auto 60px;
+      padding: 0 20px;
+    }
+
+    section {
+      margin: 80px 0;
+    }
+
+    h2 {
+      font-size: 2.3rem;
+      border-left: 5px solid var(--accent);
+      padding-left: 12px;
+      margin-bottom: 25px;
+    }
+
+    /* HERO */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.3fr);
+      gap: 40px;
+      align-items: center;
+    }
+
+    .hero-text h1 {
+      font-size: 2.6rem;
+      margin-bottom: 10px;
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      opacity: 0.85;
+      margin-bottom: 20px;
+    }
+
+    .typing {
+      font-size: 1.2rem;
+      color: var(--accent);
+      font-weight: 600;
+      height: 30px;
+      margin-top: 10px;
+    }
+
+    .hero-buttons {
+      margin-top: 25px;
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      background: transparent;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: 0.3s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(10,79,255,0.35);
+    }
+
+    /* FOTO */
+    .hero-photo {
+      text-align: center;
+    }
+
+    .hero-photo img {
+      width: 230px;
+      height: 280px;
+      border-radius: 40%;
+      object-fit: fill;
+      border: 3px solid var(--accent);
+      box-shadow: 0 0 35px rgba(0,0,0,0.7);
+      position: relative;
+    }
+
+    .typing-overlay {
+      position: absolute;
+      bottom: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(2,8,23,0.9);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: var(--text-dark);
+      white-space: nowrap;
+    }
+
+    body.light .typing-overlay {
+      background-color: rgba(245,245,245,0.9);
+      color: var(--text-light);
+      border-color: rgba(0,0,0,0.2);
+    }
+
+    /* CARDS */
+    .card {
+      background-color: var(--card-dark);
+      padding: 22px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 20px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: transform 0.5s ease, opacity 0.5s ease, background-color 0.4s ease, border-color 0.4s ease;
+    }
+
+    body.light .card {
+      background-color: var(--card-light);
+      border-color: rgba(0,0,0,0.08);
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      margin-bottom: 10px;
+      font-size: 0.98rem;
+    }
+
+    /* GRID PROJETOS */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .project-title {
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .project-link {
+      margin-top: 10px;
+      display: inline-block;
+      font-size: 0.9rem;
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .project-link:hover {
+      text-decoration: underline;
+    }
+
+    /* SKILLS */
+    .skills-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .skill-tag {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.2);
+      font-size: 0.9rem;
+      transition: 0.3s;
+    }
+
+    body.light .skill-tag {
+      border-color: rgba(0,0,0,0.2);
+    }
+
+    .skill-tag:hover {
+      background-color: var(--accent);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    /* CONTATO */
+    .contact-links a {
+      display: inline-block;
+      margin-right: 15px;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .contact-links a:hover {
+      text-decoration: underline;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+
+    /* RESPONSIVO */
+    @media (max-width: 800px) {
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      nav {
+        padding: 10px 20px;
+      }
+
+      nav .links {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <nav>
+    <div class="logo">Itael Dikson</div>
+    <div class="links">
+      <a href="#sobre">Sobre</a>
+      <a href="#formacoes">Formações</a>
+      <a href="#projetos">Projetos</a>
+      <a href="#bootcamps">Bootcamps</a>
+      <a href="#skills">Skills</a>
+      <a href="#contato">Contato</a>
+    </div>
+    <div class="theme-toggle" id="themeToggle">
+      <span>Modo</span><span id="themeLabel">Dark</span>
+    </div>
+  </nav>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-text">
+        <h1> Analista de Sistemas e Informação,Analista de Dados & Desenvolvedor Frontend</h1>
+        <p class="hero-sub">
+          Unindo Tecnologia, Finanças e Administração  para transformar dados em decisões inteligentes.
+        </p>
+        <div class="typing" id="typing"></div>
+
+        <div class="hero-buttons">
+          <a class="btn btn-primary" href="#projetos"> projetos</a>
+          <a class="btn" href="https://www.linkedin.com/in/itaeldikson-frontend/" target="_blank">LinkedIn</a>
+          <a class="btn" href="https://github.com/itaeldikson" target="_blank">GitHub</a>
+        </div>
+      </div>
+
+      <div class="hero-photo">
+        <div style="position:relative; display:inline-block;">
+          <img src="/image/itaeldikson.jpg" alt="Foto de Itael Dikson">
+        
+        </div>
+      </div>
+    </section>
+
+    <!-- SOBRE -->
+    <section id="sobre">
+      <h2>Sobre mim</h2>
+      <div class="card reveal">
+        <p>
+          Sou profissional da área de Finanças, com formação técnica em Administração e estudante de
+          <strong>Análise e Desenvolvimento de Sistemas</strong>, com conclusão prevista para dezembro de 2026.
+        </p>
+        <p>
+          Estou direcionando minha formação para <strong>Análise de Dados e Power BI</strong>, unindo minha visão de negócios e finanças aos conhecimentos de tecnologia para transformar dados em informações que apoiem decisões.
+        </p>
+        <p>
+          Tenho interesse em <strong>análise de dados, indicadores, dashboards, Power BI e tecnologia</strong>, e estou constantemente desenvolvendo novas competências por meio de cursos, bootcamps e projetos práticos.
+        </p>
+        <p>
+          Sou uma pessoa calma, organizada e ágil, com facilidade para aprender, espírito de liderança e motivação para transformar conhecimento em prática.
+        </p>
+        <p>
+          A combinação das minhas formações em <strong>Finanças, Administração e Tecnologia</strong> me permite enxergar os dados não apenas como números, mas como informações que podem ser organizadas, analisadas e transformadas em insights relevantes para uma organização.
+        </p>
+        <p> 
+           Tenho buscado recentemente formação em <strong>Automação N8N , IA Generativa , Alem de Cybersecurity</strong> para o crescimento estrategico de anvanço em IA e contribui para o desenvolvimento enquanto Analista dados e Power Bi e todo o conjunto para melhor gerar os resultados.
+        </p>
+
+        <p>
+           Desde de 2019 tenho buscado adquirir o conhecimento e estudo nesta area ,cada dia estudando e evoluindo um pouco mais, alem da paixão que carrego pela área TECH alem de livros que procurei ler para o desenvolvimento pessoal como uma pessoa que busca crescer.
+        </p>
+      </div>
+    </section>
+
+    <!-- FORMAÇÕES -->
+    <section id="formacoes">
+      <h2>Formações</h2>
+      <div class="card reveal">
+        <ul>
+          <li><strong>Análise e Desenvolvimento de Sistemas — Unopar/Anhanguera</strong> (Conclusão: 12/2026)</li>
+          <li><strong>Gestão em Finanças — Unopar</strong> (Conclusão: 12/2019)</li>
+          <li><strong>Técnico em Administração — EFG</strong> (Conclusão: 12/2014)</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- PROJETOS -->
+    <section id="projetos">
+      <h2>Projetos</h2>
+      <div class="projects-grid">
+        <div class="card reveal">
+          <div class="project-title">Portfólio Profissional</div>
+          <p>Site criado para apresentar minha trajetória, formações, habilidades e projetos.</p>
+          <a class="project-link" href="https://github.com/itaeldikson" target="_blank">Ver no GitHub</a>
+        </div>
+
+        <div class="card reveal">
+          <div class="project-title">Projetos Frontend</div>
+          <p>Agencia Fake Criada como demonstrativo para uma agencia.</p>
+          <a class="project-link" href="https://github.com/itaeldikson/Agencia-Fake" target="_blank">Ver no GitHub</a>
+        </div>
+
+        <div class="card reveal">
+          <div class="project-title">Projetos Com IA </div>
+          <p>Criando Agente Financeiro Inteligente com IA .</p>
+          <a class="project-link" href="https://github.com/itaeldikson/dio-lab-bia-do-futuro" target="_blank">Ver no GitHub</a>
+        </div>
+        <div class="card reveal">
+          <div class="project-title">Projetos de Dados e IA</div>
+          <p>Dados dashboard com Power BI .</p>
+          <a class="project-link" href="https://github.com/itaeldikson/Analisando-dados-de-um-Dashboard-de-Vendas-no-Power-BI" target="_blank">Ver no GitHub</a>
+        </div>
+        <div class="card reveal">
+          <div class="project-title">Projetos de Dados</div>
+          <p>Esquema conceitual Oficina Mecanica.</p>
+          <a class="project-link" href="https://github.com/itaeldikson/Esquema-Conceitual-Oficina-Mecanica" target="_blank">Ver no GitHub</a>
+        </div>
+        <div class="card reveal">
+          <div class="project-title">Projetos de Dados</div>
+          <p>Sistema de Ecommerce com banco de dados.</p>
+          <a class="project-link" href="https://github.com/itaeldikson/projeto-Logico-cenario-Ecommerce" target="_blank">Ver no GitHub</a>
+        </div>
+        <div class="card reveal">
+          <div class="project-title">Python</div>
+          <p>Anomalia com python .</p>
+          <a class="project-link" href="https://github.com/itaeldikson/detec-o-anomalia-python" target="_blank">Ver no GitHub</a>
+        </div>
+        <div class="card reveal">
+          <div class="project-title">Projetos de Dados</div>
+          <p>layot site discord criando uma interface avançada .</p>
+          <a class="project-link" href="https://github.com/itaeldikson/Discord-Dio/tree/main/Discord" target="_blank">Ver no GitHub</a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- BOOTCAMPS -->
+    <section id="bootcamps">
+      <h2>Bootcamps</h2>
+      <div class="card reveal">
+        <ul>
+          <li>Capgemini Fullstack Java & Angular — 117h - Digital Innovation one (one).</li>
+          <li>Bootcamp Bradesco — GenAI, Dados & Cyber — 52h - Digital Innovation one (one).</li>
+          <li>Formação Cybersecurity Specialist — 22h - Digital Innovation one (one).</li>
+          <li>Eduzz Fullstack Developer #2 — 95h - Digital Innovation one (one).</li>
+          <li>Inter Frontend Developer — 99h - Digital Innovation one (one).</li>
+          <li>Potência Tech iFood — Desenvolvimento de Jogos — 77h - Digital Innovation one (one).</li>
+          <li>Santander Bootcamp Cibersegurança — 53h - Digital Innovation one (one).</li>
+          <li>Formação SQL Database Specialist — 72h - Digital Innovation one (one).</li>
+          <li>Take Blip Web Developer — 78h - Digital Innovation one (one).</li>
+          <li>Universia — Fundamentos de IA Generativa — 24h - Digital Innovation one (one).</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <h2>Skills</h2>
+      <div class="card reveal">
+        <div class="skills-tags">
+          <span class="skill-tag">Power BI</span>
+          <span class="skill-tag">SQL</span>
+          <span class="skill-tag">Python </span>
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">HTML</span>
+          <span class="skill-tag">CSS</span>
+          <span class="skill-tag">Cloude code</span>
+          <span class="skill-tag">IA</span>
+          <span class="skill-tag">N8N</span>
+          <span class="skill-tag">Git</span>
+          <span class="skill-tag">Finanças</span>
+          <span class="skill-tag">Administração</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTATO -->
+    <section id="contato">
+      <h2>Contato</h2>
+      <div class="card reveal">
+        <div class="contact-links">
+          <a href="mailto:itaeldikson@gmail.com">itaeldikson@gmail.com</a>
+          <a href="https://www.linkedin.com/in/itaeldikson-frontend/" target="_blank">LinkedIn</a>
+          <a href="https://github.com/itaeldikson" target="_blank">GitHub</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © 2026 — Criado por Itael Dikson com ChatGPT
+  </footer>
+
+  <script>
+    // Typing effect
+    const typingText = "Analista de Dados • Dev Frontend • Focado em soluções inteligentes";
+    let idx = 0;
+    function type() {
+      const el = document.getElementById("typing");
+      el.textContent = typingText.slice(0, idx);
+      idx++;
+      if (idx <= typingText.length) {
+        setTimeout(type, 70);
+      }
+    }
+    type();
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll(".reveal");
+    function handleScroll() {
+      const trigger = window.innerHeight - 100;
+      reveals.forEach(card => {
+        const rect = card.getBoundingClientRect();
+        if (rect.top < trigger) {
+          card.style.opacity = "1";
+          card.style.transform = "translateY(0)";
+        }
+      });
+    }
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+
+    // Theme toggle
+    const themeToggle = document.getElementById("themeToggle");
+    const themeLabel = document.getElementById("themeLabel");
+
+    themeToggle.addEventListener("click", () => {
+      document.body.classList.toggle("light");
+      themeLabel.textContent = document.body.classList.contains("light") ? "Light" : "Dark";
+    });
+  </script>
+</body>
+</html>
+
+
